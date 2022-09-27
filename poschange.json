@@ -1,0 +1,7 @@
+    {
+        "PG": "Guard",
+        "SG": "Guard",
+        "SF": "Forward",
+        "PF": "Forward",
+        "C": "Center"
+    }
