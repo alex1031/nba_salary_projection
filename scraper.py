@@ -71,4 +71,11 @@ def get_player_salary(season):
     df.to_csv('data/player_salary_{}.csv'.format(season[5:]))
     return df
 
+get_player_basic(2021)
+get_player_basic(2022)
+get_player_advanced(2021)
+get_player_advanced(2022)
+get_player_per_poss(2021)
 get_player_per_poss(2022)
+get_player_salary('2020-2021')
+get_player_salary('2021-2022')
