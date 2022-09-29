@@ -3,5 +3,13 @@
         "SG": "Guard",
         "SF": "Forward",
         "PF": "Forward",
-        "C": "Center"
+        "C": "Center",
+        "SF-SG": "Forward",
+        "SG-PG": "Guard",
+        "PG-SG": "Guard",
+        "SF-PF": "Forward",
+        "SG-SF": "Forward",
+        "PF-SF": "Forward",
+        "C-PF": "Center",
+        "PF-C": "Center"
     }
