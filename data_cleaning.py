@@ -56,11 +56,11 @@ basic_2021_mod2 = basic_2021[basic_col_2]
 basic_2022['FTR'] = basic_2022['FT']/basic_2022['FGA']
 basic_2022_mod2 = basic_2022[basic_col_2]
 advanced_2021_mod2 = advanced_2021[advanced_col_2]
-advanced_2021_mod2['TRB%'] = advanced_2021_mod2['TRB%']/100
-advanced_2021_mod2['TOV%'] = advanced_2021_mod2['TOV%']/100
-advanced_2022_mod2 = advanced_2021[advanced_col_2]
-advanced_2022_mod2['TRB%'] = advanced_2022_mod2['TRB%']/100
-advanced_2022_mod2['TOV%'] = advanced_2022_mod2['TOV%']/100
+basic_2021_mod2['eFG%'] = basic_2021_mod2['eFG%']*100
+basic_2021_mod2['FTR'] = basic_2021_mod2['FTR']*100
+advanced_2022_mod2 = advanced_2022[advanced_col_2]
+basic_2022_mod2['eFG%'] = basic_2022_mod2['eFG%']*100
+basic_2022_mod2['FTR'] = basic_2022_mod2['FTR']*100
 
 mod2_2021 = pd.concat([basic_2021_mod2, advanced_2021_mod2], axis=1)
 mod2_2021['Player'] = mod2_2021['Player'].replace(name_change)
