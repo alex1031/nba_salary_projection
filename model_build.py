@@ -128,6 +128,16 @@ X_test_mod_1_catvar = X_test_mod_1.iloc[:, 4:len(X_test_mod_1)].reset_index().dr
 X_test_mod_1_numvar = pd.DataFrame(sc_X_test.fit_transform(X_test_mod_1.iloc[:, 0:4]))
 X_test_mod_1 = pd.concat([X_test_mod_1_numvar, X_test_mod_1_catvar], axis=1)
 
+sc_X_train_mod_2 = StandardScaler()
+X_train_mod_2_catvar = X_train_mod_2.iloc[:, 4:len(X_train_mod_2)].reset_index().drop(columns='index')
+X_train_mod_2_numvar = pd.DataFrame(sc_X_train_mod_2.fit_transform(X_train_mod_2.iloc[:, 0:4]))
+X_train_mod_2 = pd.concat([X_train_mod_2_numvar, X_train_mod_2_catvar], axis=1)
+
+sc_X_test_mod_2 = StandardScaler()
+X_test_mod_2_catvar = X_test_mod_2.iloc[:, 4:len(X_test_mod_2)].reset_index().drop(columns='index')
+X_test_mod_2_numvar = pd.DataFrame(sc_X_test_mod_2.fit_transform(X_test_mod_2.iloc[:, 0:4]))
+X_test_mod_2 = pd.concat([X_test_mod_2_numvar, X_test_mod_2_catvar], axis=1)
+
 from sklearn.svm import LinearSVR
 
 sc_y_train_1 = StandardScaler()
