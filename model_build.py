@@ -14,11 +14,11 @@ mod_2 = pd.read_csv('model_2_eda_data.csv')
 
 # Choose data
 mod_1_y = mod_1['Salary Adjusted'].values
-mod_1_x = mod_1[['Pos', 'age_bin', 'games_bin', 'games_started_bin', 'mins_bin',
+mod_1_x = mod_1[['Pos', 'age_bin', 'games_bin', 'games_started_bin',
                  'OBPM', 'DBPM', 'ORtg', 'DRtg']]
 
 mod_2_y = mod_2['Salary Adjusted'].values
-mod_2_x = mod_2[['Pos', 'age_bin','games_bin', 'games_started_bin', 'mins_bin',
+mod_2_x = mod_2[['Pos', 'age_bin','games_bin', 'games_started_bin',
                  'eFG%', 'FTR', 'TRB%', 'TOV%']]
 
 # Dummy Variable for position and intervals
@@ -52,7 +52,7 @@ print(np.mean(cross_val_score(lm_mod_2, X_train_mod_2, y_train_mod_2_norm, scori
 
 # Ridge Regression - multicollinearity of some parameters
 from sklearn.linear_model import Ridge
-rd_mod_1 = Ridge(alpha=2.49)
+rd_mod_1 = Ridge(alpha=2.6)
 rd_mod_1.fit(X_train_mod_1, y_train_mod_1_norm)
 rd_mod_2 = Ridge(alpha=1.94)
 rd_mod_2.fit(X_train_mod_2, y_train_mod_2_norm)
@@ -61,7 +61,7 @@ rd_mod_2.fit(X_train_mod_2, y_train_mod_2_norm)
 alpha = []
 error = []
 
-for i in range(1,250):
+for i in range(1,300):
     alpha.append(i/100)
     rd = Ridge(alpha=(i/100))
     error.append(np.mean(cross_val_score(rd,X_train_mod_1,y_train_mod_1_norm, scoring = 'neg_mean_absolute_error')))
@@ -121,22 +121,22 @@ from sklearn.preprocessing import StandardScaler
 sc_X_train = StandardScaler()
 X_train_mod_1_catvar = X_train_mod_1.iloc[:, 4:len(X_train_mod_1)].reset_index().drop(columns='index')
 X_train_mod_1_numvar = pd.DataFrame(sc_X_train.fit_transform(X_train_mod_1.iloc[:, 0:4]))
-X_train_mod_1 = pd.concat([X_train_mod_1_numvar, X_train_mod_1_catvar], axis=1)
+X_svm_train_mod_1 = pd.concat([X_train_mod_1_numvar, X_train_mod_1_catvar], axis=1)
 
 sc_X_test = StandardScaler()
 X_test_mod_1_catvar = X_test_mod_1.iloc[:, 4:len(X_test_mod_1)].reset_index().drop(columns='index')
 X_test_mod_1_numvar = pd.DataFrame(sc_X_test.fit_transform(X_test_mod_1.iloc[:, 0:4]))
-X_test_mod_1 = pd.concat([X_test_mod_1_numvar, X_test_mod_1_catvar], axis=1)
+X_svm_test_mod_1 = pd.concat([X_test_mod_1_numvar, X_test_mod_1_catvar], axis=1)
 
 sc_X_train_mod_2 = StandardScaler()
 X_train_mod_2_catvar = X_train_mod_2.iloc[:, 4:len(X_train_mod_2)].reset_index().drop(columns='index')
 X_train_mod_2_numvar = pd.DataFrame(sc_X_train_mod_2.fit_transform(X_train_mod_2.iloc[:, 0:4]))
-X_train_mod_2 = pd.concat([X_train_mod_2_numvar, X_train_mod_2_catvar], axis=1)
+X_svm_train_mod_2 = pd.concat([X_train_mod_2_numvar, X_train_mod_2_catvar], axis=1)
 
 sc_X_test_mod_2 = StandardScaler()
 X_test_mod_2_catvar = X_test_mod_2.iloc[:, 4:len(X_test_mod_2)].reset_index().drop(columns='index')
 X_test_mod_2_numvar = pd.DataFrame(sc_X_test_mod_2.fit_transform(X_test_mod_2.iloc[:, 0:4]))
-X_test_mod_2 = pd.concat([X_test_mod_2_numvar, X_test_mod_2_catvar], axis=1)
+X_svm_test_mod_2 = pd.concat([X_test_mod_2_numvar, X_test_mod_2_catvar], axis=1)
 
 from sklearn.svm import LinearSVR
 
@@ -153,20 +153,23 @@ sv_y_test_mod_2 = sc_y_test_2.fit_transform(y_test_mod_2_norm.reshape(-1, 1))
 lsvr_mod_2 = LinearSVR()
 
 # Optimisation
+from warnings import simplefilter
+from sklearn.exceptions import ConvergenceWarning
+simplefilter("ignore", category=ConvergenceWarning)
 param = {'epsilon': [0, 0.01, 0.1, 0.5, 1, 2, 4], 'C': [0.1, 1, 10, 100, 1000], 'max_iter':range(10000, 20000, 500)}
 gsvr_mod_1 = GridSearchCV(lsvr_mod_1, param, n_jobs=-1, scoring='neg_mean_absolute_error')
-gsvr_mod_1.fit(X_train_mod_1, sv_y_train_mod_1.ravel())
+gsvr_mod_1.fit(X_svm_train_mod_1, sv_y_train_mod_1.ravel())
 print(gsvr_mod_1.best_score_)
 print(gsvr_mod_1.best_estimator_)
 
 gsvr_mod_2 = GridSearchCV(lsvr_mod_2, param, n_jobs=-1, scoring='neg_mean_absolute_error')
-gsvr_mod_2.fit(X_train_mod_2, sv_y_train_mod_2.ravel())
+gsvr_mod_2.fit(X_svm_train_mod_2, sv_y_train_mod_2.ravel())
 print(gsvr_mod_2.best_score_)
 print(gsvr_mod_2.best_estimator_)
 
 # test and evaluate
-gsvr_pred_mod_1 = gsvr_mod_1.best_estimator_.predict(X_test_mod_1)
-gsvr_pred_mod_2 = gsvr_mod_2.best_estimator_.predict(X_test_mod_2)
+gsvr_pred_mod_1 = gsvr_mod_1.best_estimator_.predict(X_svm_test_mod_1)
+gsvr_pred_mod_2 = gsvr_mod_2.best_estimator_.predict(X_svm_test_mod_2)
 
 # evaluate models
 from sklearn.metrics import mean_absolute_error
@@ -182,5 +185,29 @@ print('Ridge Regression:', mean_absolute_error(y_test_mod_2_norm, rd_pred_mod_2)
 print('Random Forest:', mean_absolute_error(y_test_mod_2_norm, gs_pred_mod_2))
 print('Support Vector Regression:', mean_absolute_error(y_test_mod_2_norm, sc_y_test_2.inverse_transform(gsvr_pred_mod_2)))
 # ----- Support Vector Regression for Model 1 and Random Forest for Model 2 ----- #
+
+# Creating Display Dataframe for FlaskAPI
+disp_cols = ['Player', 'Pos', 'Age', 'G', 'GS', 'MP', 'ORtg', 'DRtg', 'OBPM', 'DBPM']
+disp_cols_2 = ['eFG%', 'FTR', 'TRB%', 'TOV%', 'Salary', 'Salary Adjusted']
+disp_df_1 = mod_1.iloc[429:, :][disp_cols].reset_index().drop(columns='index')
+disp_temp = mod_2.iloc[429:, :][disp_cols_2].reset_index().drop(columns='index')
+disp_df_1 = pd.concat([disp_df_1, disp_temp], axis=1)
+sc_disp = StandardScaler()
+disp_catvar = mod_1.iloc[429:, :][['Pos', 'age_bin', 'games_bin', 'games_started_bin']].reset_index().drop(columns='index')
+disp_numvar = pd.DataFrame(sc_disp.fit_transform(mod_1.iloc[429:, :][['OBPM', 'DBPM', 'ORtg', 'DRtg']]))
+disp_x = pd.concat([disp_numvar, disp_catvar], axis=1)
+disp_x = pd.get_dummies(disp_x)
+sc_disp_y = StandardScaler()
+y_1 = sc_disp_y.fit_transform(np.cbrt(mod_1.iloc[420:, :]['Salary Adjusted'].values).reshape(-1, 1))
+
+disp_df_1['Rating Model Salary'] = sc_disp_y.inverse_transform(gsvr_mod_1.best_estimator_.predict(disp_x))**3
+
+disp_x_2 = mod_2_dum.iloc[429:, :].reset_index().drop(columns='index')
+disp_df_1['Four Factors Salary'] = gs_mod_2.best_estimator_.predict(disp_x_2)**3
+disp_df_1['Average Predicted Salary'] = (disp_df_1['Rating Model Salary'] + disp_df_1['Four Factors Salary'])/2
+disp_df_1.to_csv('display_df.csv')
+
+gsvr_mod_1.best_estimator_.coef_
+
 
 
