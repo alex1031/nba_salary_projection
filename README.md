@@ -8,10 +8,8 @@
 - Built a client displaying the tables using Flask and HTML.
 
 ## Code and Resources Used
-**Python Version**: 3.8.8 
-
-**Packages**: pandas, sklearn, matplotlib, beautifulsoup, flask, json
-
+**Python Version**: 3.8.8\
+**Packages**: pandas, sklearn, matplotlib, beautifulsoup, flask, json\
 **Web Framework Requirements**: ``` pip install -r requirements.txt ```
 
 ## Background Information
@@ -48,6 +46,22 @@ Four different models were used and was evaluated using Mean Absolute Error.
 - **Support Vector Regression**: More complex model with more regularisation in order to test for better results.
 
 ## Model Evaluation
+Support Vector Regression was chosen for Ratings Model and Random Forest was chosen for Four Factors Model. 
+
+<ins>Ratings Model</ins>\
+**Linear Regression**:\
+**Lasso Regression**:\
+**Random Forest**:\
+**Support Vector Regression**:
+
+<ins>Four Factors Model</ins>\
+**Linear Regression**:\
+**Lasso Regression**:\
+**Random Forest**:\
+**Support Vector Regression**:
 
 ## Productionisation
 A flask API endpoint was used in order to host a local server, which displays the data with search and sort tools for ease of access.
+
+![display1](display1.png)
+![display2](display2.png)
