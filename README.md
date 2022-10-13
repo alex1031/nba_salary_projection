@@ -61,7 +61,7 @@ Support Vector Regression was chosen for Ratings Model and Random Forest was cho
 **Support Vector Regression**:
 
 ## Productionisation
-A flask API endpoint was used in order to host a local server, which displays the data with search and sort tools for ease of access.
+A flask API endpoint was used in order to host a local server, which displays the data with interactive tools.
 
 ![display1](display1.png)
 ![display2](display2.png)
