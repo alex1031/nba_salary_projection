@@ -34,8 +34,11 @@ The data retrieved required cleaning in order for it to be usable for the model.
 - Binned age, games, games started, minutes.
 
 ## EDA
+<img src="age_salary.png" width=40% height=40%> <img src="age_odrtg.png" width=40% height=40%> <img src="age_efg.png" width=40% height=40%> <img src="age_percentages.png" width=40% height=40%> <img src="ff_heatmap.png" width=20% height=20%> <img src="pivot_table_age_min.png" width=20% height=20%> <img src="pivot_table_pos_game.png" width=20% height=20%>
 
 ## Model Building
+The decision to use adjusted salary as the output for the model is because it adjusts the player's salary to inflation, and provides a better notion for the amount a player should be paid today. It eliminates the confusion where players earn different amounts due to the change in salary cap each season. For example, Paul George earned around 39 million in 2021-22, but he will be making 42.5 million in 2022-23 despite being on the same contract. Similarly, the NBA's salary cap increased by 12 million from 2021-22 to 2022-23.
+
 The first step to building the model is to transform all categorical variables into dummy variables. The data is then split into train and test sets randomly with test size of 20%. In addition, a cube root transformation of the output data was performed since it followed an exponential distribution (assumption for most linear models are that the output follows a normal distribution). Standardisation was used as a second transformation when attempting support vector regression.
 
 Four different models were used and was evaluated using Mean Absolute Error.
@@ -45,3 +48,6 @@ Four different models were used and was evaluated using Mean Absolute Error.
 - **Support Vector Regression**: More complex model with more regularisation in order to test for better results.
 
 ## Model Evaluation
+
+## Productionisation
+A flask API endpoint was used in order to host a local server, which displays the data with search and sort tools for ease of access.
