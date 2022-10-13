@@ -10,7 +10,8 @@
 ## Code and Resources Used
 **Python Version**: 3.8.8\
 **Packages**: pandas, sklearn, matplotlib, beautifulsoup, flask, json\
-**Web Framework Requirements**: ``` pip install -r requirements.txt ```
+**Web Framework Requirements**: ``` pip install -r requirements.txt ```\
+**Flask Productionisation**: https://github.com/miguelgrinberg/flask-tables
 
 ## Background Information
 The Ratings Model involves the inclusion of Offensive Rating, Defensive Rating, Offensive Box Plus Minus and Defensive Box Plus Minus. Offensive and Defensive Rating are metrics developed by Dean Oliver in order to estimate a player's production on the offensive and defensive end per 100 individual possessions. The calculation involves a wide range of basic traditional box score statistics such as points, rebounds, assists, etc in an attempt to cover everything that can happen offensively and defensive. The methodology for such calculation can be found [here](https://www.basketball-reference.com/about/ratings.html). Furthermore, Offensive and Defensive Box Plus Minus are developed in order to estimate a player's contribution when he is on the court, and utilies traditional stats to estimate the role of the player for adjustments. Full information on Offensive and Defensive Box Plus Minus can be found [here](https://www.basketball-reference.com/about/bpm2.html).
