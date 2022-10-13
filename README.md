@@ -47,19 +47,19 @@ Four different models were used and was evaluated using Mean Absolute Error.
 - **Support Vector Regression**: More complex model with more regularisation in order to test for better results.
 
 ## Model Evaluation
-Support Vector Regression was chosen for Ratings Model and Random Forest was chosen for Four Factors Model. 
+Support Vector Regression was chosen for Ratings Model and Random Forest was chosen for Four Factors Model. MAE were recorded after cube root transformation.
 
 <ins>Ratings Model</ins>\
-**Linear Regression**:\
-**Lasso Regression**:\
-**Random Forest**:\
-**Support Vector Regression**:
+**Linear Regression**: 3.35\
+**Lasso Regression**:3.35\
+**Random Forest**: 3.36\
+**Support Vector Regression**: 3.30
 
 <ins>Four Factors Model</ins>\
-**Linear Regression**:\
-**Lasso Regression**:\
-**Random Forest**:\
-**Support Vector Regression**:
+**Linear Regression**: 3.95\
+**Lasso Regression**: 3.96\
+**Random Forest**: 3.80\
+**Support Vector Regression**: 4.03
 
 ## Productionisation
 A flask API endpoint was used in order to host a local server, which displays the data with interactive tools.
